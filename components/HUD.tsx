@@ -157,24 +157,23 @@ export default function HUD() {
                         <BarChart3 className="w-4 h-4" />
                         Dashboard
                     </button>
-                    <button
-                        onClick={() => setActiveTab('about')}
-                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
-                            activeTab === 'about' 
-                                ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20' 
-                                : 'text-gray-400 hover:text-white hover:bg-white/5'
-                        }`}
+                    <a
+                        href="https://github.com/SohamJuneja/AeroMesh"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5"
                     >
                         <Info className="w-4 h-4" />
                         About
-                    </button>
+                        <ExternalLink className="w-3 h-3" />
+                    </a>
                 </div>
             </div>
 
             {/* Content Panels */}
             {activeTab === 'logs' && (
-                <div className="absolute bottom-6 right-6 w-[500px] pointer-events-auto z-40">
-                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="absolute bottom-6 right-6 w-[500px] pointer-events-auto z-50">
+                    <div className="bg-black/95 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
                         <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-5 py-3 border-b border-white/10">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
@@ -191,21 +190,29 @@ export default function HUD() {
                             {logs.slice(-5).map((log, i) => (
                                 <div 
                                     key={i} 
-                                    className="bg-gradient-to-r from-cyan-500/5 to-transparent border border-cyan-500/10 rounded-lg px-4 py-2.5 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                                    className="bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 backdrop-blur-sm"
+                                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
                                 >
                                     <div className="flex items-start gap-3">
-                                        <span className="text-xs text-gray-500 font-mono mt-0.5 tabular-nums">
+                                        <span 
+                                            className="text-xs text-cyan-400 font-mono mt-0.5 tabular-nums font-semibold"
+                                            style={{ color: '#22d3ee' }}
+                                        >
                                             {new Date().toLocaleTimeString()}
                                         </span>
-                                        <span className="text-sm text-gray-200 flex-1 font-light leading-relaxed">
+                                        <span 
+                                            className="text-sm text-white font-medium flex-1 leading-relaxed"
+                                            style={{ color: '#ffffff' }}
+                                        >
                                             {log}
                                         </span>
                                     </div>
                                 </div>
                             ))}
                             {logs.length === 0 && (
-                                <div className="text-center py-8 text-gray-500 text-sm">
-                                    Initializing drone swarm...
+                                <div className="text-center py-8">
+                                    <Terminal className="w-8 h-8 mx-auto mb-3 text-cyan-400 opacity-50" />
+                                    <p className="text-white text-sm" style={{ color: '#ffffff' }}>Initializing drone swarm...</p>
                                 </div>
                             )}
                             <div ref={logsEndRef} />
@@ -215,8 +222,8 @@ export default function HUD() {
             )}
 
             {activeTab === 'transactions' && (
-                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
-                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-50">
+                    <div className="bg-black/95 backdrop-blur-xl border border-amber-500/30 rounded-2xl shadow-2xl shadow-amber-500/20 overflow-hidden">
                         <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 px-6 py-4 border-b border-white/10">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
@@ -228,21 +235,21 @@ export default function HUD() {
                         </div>
                         <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
                             {transactions.length === 0 ? (
-                                <div className="text-center py-12 text-gray-500">
-                                    <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                                    <p className="text-sm">Waiting for transactions...</p>
+                                <div className="text-center py-12">
+                                    <Activity className="w-12 h-12 mx-auto mb-4 text-amber-400 opacity-50" />
+                                    <p className="text-sm text-white">Waiting for transactions...</p>
                                 </div>
                             ) : (
                                 <div className="space-y-3">
                                     {transactions.map((tx) => (
-                                        <div key={tx.hash} className="bg-gradient-to-r from-white/5 to-transparent border border-white/10 rounded-xl p-4 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/10 transition-all">
+                                        <div key={tx.hash} className="bg-black/50 border border-white/20 rounded-xl p-4 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/20 transition-all backdrop-blur-sm">
                                             <div className="flex items-center justify-between mb-3">
-                                                <span className="text-emerald-400 font-medium text-sm">{tx.eventType}</span>
-                                                <span className="text-gray-500 text-xs tabular-nums">{new Date(tx.timestamp).toLocaleTimeString()}</span>
+                                                <span className="text-emerald-400 font-medium text-sm" style={{ color: '#34d399' }}>{tx.eventType}</span>
+                                                <span className="text-gray-400 text-xs tabular-nums" style={{ color: '#9ca3af' }}>{new Date(tx.timestamp).toLocaleTimeString()}</span>
                                             </div>
-                                            <div className="text-cyan-400 text-xs mb-3 font-light">Drone: {tx.droneId}</div>
+                                            <div className="text-cyan-400 text-xs mb-3" style={{ color: '#22d3ee' }}>Drone: {tx.droneId}</div>
                                             <div className="flex items-center gap-2">
-                                                <code className="text-gray-400 text-xs flex-1 truncate bg-black/50 px-3 py-2 rounded-lg font-mono">
+                                                <code className="text-gray-300 text-xs flex-1 truncate bg-black/50 px-3 py-2 rounded-lg font-mono" style={{ color: '#d1d5db' }}>
                                                     {tx.hash}
                                                 </code>
                                                 <button
@@ -274,8 +281,8 @@ export default function HUD() {
             )}
 
             {activeTab === 'dashboard' && (
-                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
-                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-50">
+                    <div className="bg-black/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
                         <div className="bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 px-6 py-4 border-b border-white/10">
                             <div className="flex items-center gap-3">
                                 <BarChart3 className="w-5 h-5 text-emerald-400" />
@@ -346,109 +353,6 @@ export default function HUD() {
                                         </code>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {activeTab === 'about' && (
-                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
-                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-                        <div className="bg-gradient-to-r from-purple-500/10 to-purple-500/5 px-6 py-4 border-b border-white/10">
-                            <div className="flex items-center gap-3">
-                                <Info className="w-5 h-5 text-purple-400" />
-                                <h3 className="text-lg font-medium text-white">Project Information</h3>
-                            </div>
-                        </div>
-                        <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
-                        <div className="space-y-5">
-                            <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl p-5">
-                                <h3 className="text-white text-lg font-medium mb-3">AeroMesh Digital Twin</h3>
-                                <p className="text-gray-300 leading-relaxed text-sm font-light">
-                                    Real-time autonomous drone swarm simulation powered by Somnia Data Streams. 
-                                    Built for the Somnia Mini Hackathon 2024.
-                                </p>
-                            </div>
-
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                                <h4 className="text-white text-sm font-medium mb-4 flex items-center gap-2">
-                                    <Layers className="w-4 h-4 text-cyan-400" />
-                                    Key Features
-                                </h4>
-                                <ul className="space-y-2 text-sm text-gray-300 font-light">
-                                    <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 mt-1">•</span>
-                                        <span>50 autonomous AI agents using Boids algorithm</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 mt-1">•</span>
-                                        <span>Real-time blockchain event publishing</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 mt-1">•</span>
-                                        <span>WebGL-powered 3D visualization</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 mt-1">•</span>
-                                        <span>Advanced collision avoidance system</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <span className="text-cyan-400 mt-1">•</span>
-                                        <span>Schema-based data encoding</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                                <h4 className="text-white text-sm font-medium mb-4">Technology Stack</h4>
-                                <div className="space-y-2.5 text-sm">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Frontend</span>
-                                        <span className="text-white">Next.js 16 + React 19</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">3D Graphics</span>
-                                        <span className="text-white">Three.js + R3F</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Blockchain</span>
-                                        <span className="text-white">Somnia + Viem</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Styling</span>
-                                        <span className="text-white">Tailwind CSS 4</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                                <h4 className="text-white text-sm font-medium mb-4">Use Cases</h4>
-                                <ul className="space-y-2 text-sm text-gray-300 font-light">
-                                    <li className="flex items-center gap-2">
-                                        <span className="text-emerald-400">✓</span>
-                                        Supply chain monitoring
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <span className="text-emerald-400">✓</span>
-                                        Fleet management systems
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <span className="text-emerald-400">✓</span>
-                                        IoT device coordination
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <span className="text-emerald-400">✓</span>
-                                        Logistics optimization
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-xl p-5 text-center">
-                                <div className="text-gray-400 text-xs mb-2 font-light">Created by</div>
-                                <div className="text-white text-lg font-medium">Soham Juneja</div>
-                                <div className="text-gray-500 text-xs mt-1">Somnia Mini Hackathon 2024</div>
                             </div>
                         </div>
                         </div>

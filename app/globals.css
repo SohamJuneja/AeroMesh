@@ -24,6 +24,29 @@ body {
   height: 100%;
 }
 
+/* Force text visibility */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure white text is actually white */
+.text-white {
+  color: #ffffff !important;
+}
+
+.text-cyan-400 {
+  color: #22d3ee !important;
+}
+
+.text-emerald-400 {
+  color: #34d399 !important;
+}
+
+.text-amber-400 {
+  color: #fbbf24 !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
