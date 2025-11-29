@@ -91,149 +91,177 @@ export default function HUD() {
 
     return (
         <>
-            {/* Top Status Bar */}
-            <div className="absolute top-0 left-0 right-0 h-16 bg-black/80 border-b border-[#00F0FF] backdrop-blur-md flex items-center justify-between px-6 pointer-events-none z-50">
-                <div className="pointer-events-auto">
-                    <div className="text-[#FFD700] font-bold text-xl tracking-wider">
-                        AEROMESH
-                    </div>
-                    <div className="text-white/50 text-xs">Digital Twin • Somnia Testnet</div>
-                </div>
-                
-                <div className="flex items-center gap-6 pointer-events-auto">
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[#00FF41]/10 border border-[#00FF41] rounded">
-                        <Wifi className="w-4 h-4 text-[#00FF41]" />
+            {/* Top Header Bar */}
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/90 via-black/80 to-transparent backdrop-blur-sm border-b border-white/10 pointer-events-none z-50">
+                <div className="px-8 py-4 flex items-center justify-between pointer-events-auto">
+                    <div className="flex items-center gap-4">
                         <div>
-                            <div className="text-[#00FF41] text-xs font-bold">CONNECTED</div>
-                            <div className="text-white/50 text-[10px]">Somnia Shannon</div>
+                            <h1 className="text-2xl font-semibold text-white tracking-tight">
+                                AeroMesh
+                            </h1>
+                            <p className="text-sm text-gray-400 font-light">Digital Twin Simulation</p>
                         </div>
                     </div>
                     
-                    <div className="flex items-center gap-2 px-3 py-2 bg-[#00F0FF]/10 border border-[#00F0FF] rounded">
-                        <Activity className="w-4 h-4 text-[#00F0FF]" />
-                        <div>
-                            <div className="text-[#00F0FF] text-xs font-bold">{tps.toLocaleString()} TPS</div>
-                            <div className="text-white/50 text-[10px]">Network Speed</div>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
+                            <div>
+                                <div className="text-emerald-400 text-sm font-medium">Connected</div>
+                                <div className="text-gray-400 text-xs">Somnia Testnet</div>
+                            </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-3 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+                            <Activity className="w-5 h-5 text-cyan-400" />
+                            <div>
+                                <div className="text-cyan-400 text-lg font-semibold tabular-nums">{tps.toLocaleString()}</div>
+                                <div className="text-gray-400 text-xs">TPS</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Side Navigation Panel */}
-            <div className="absolute left-0 top-16 bottom-0 w-80 bg-black/95 border-r border-[#00F0FF] backdrop-blur-md flex flex-col pointer-events-auto z-40">
                 {/* Tab Navigation */}
-                <div className="flex border-b border-[#00F0FF]/30">
+                <div className="px-8 pb-3 flex gap-2 pointer-events-auto">
                     <button
                         onClick={() => setActiveTab('logs')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
                             activeTab === 'logs' 
-                                ? 'bg-[#00F0FF]/20 text-[#00F0FF] border-b-2 border-[#00F0FF]' 
-                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/20' 
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                         }`}
                     >
                         <Terminal className="w-4 h-4" />
-                        LOGS
+                        Live Logs
                     </button>
                     <button
                         onClick={() => setActiveTab('transactions')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
                             activeTab === 'transactions' 
-                                ? 'bg-[#FFD700]/20 text-[#FFD700] border-b-2 border-[#FFD700]' 
-                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                ? 'bg-amber-500/20 text-amber-400 shadow-lg shadow-amber-500/20' 
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                         }`}
                     >
                         <Activity className="w-4 h-4" />
-                        TX
+                        Transactions
                     </button>
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
                             activeTab === 'dashboard' 
-                                ? 'bg-[#00FF41]/20 text-[#00FF41] border-b-2 border-[#00FF41]' 
-                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                ? 'bg-emerald-500/20 text-emerald-400 shadow-lg shadow-emerald-500/20' 
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                         }`}
                     >
                         <BarChart3 className="w-4 h-4" />
-                        STATS
+                        Dashboard
                     </button>
                     <button
                         onClick={() => setActiveTab('about')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
                             activeTab === 'about' 
-                                ? 'bg-purple-500/20 text-purple-400 border-b-2 border-purple-400' 
-                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
+                                ? 'bg-purple-500/20 text-purple-400 shadow-lg shadow-purple-500/20' 
+                                : 'text-gray-400 hover:text-white hover:bg-white/5'
                         }`}
                     >
                         <Info className="w-4 h-4" />
-                        INFO
+                        About
                     </button>
                 </div>
+            </div>
 
-                {/* Tab Content */}
-                <div className="flex-1 overflow-y-auto p-4">
-                    {activeTab === 'logs' && (
-                        <div>
-                            <div className="text-[#00F0FF] font-bold mb-3 text-sm flex items-center gap-2">
-                                <Terminal className="w-4 h-4" />
-                                SYSTEM LOGS
-                            </div>
-                            <div className="space-y-1 font-mono text-xs">
-                                {logs.map((log, i) => (
-                                    <div 
-                                        key={i} 
-                                        className="text-[#00FF41] animate-[fadeIn_0.3s_ease-in] bg-black/30 px-2 py-1 rounded border border-[#00FF41]/20"
-                                    >
-                                        {log}
-                                    </div>
-                                ))}
-                                <div ref={logsEndRef} />
+            {/* Content Panels */}
+            {activeTab === 'logs' && (
+                <div className="absolute bottom-6 right-6 w-[500px] pointer-events-auto z-40">
+                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-5 py-3 border-b border-white/10">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Terminal className="w-4 h-4 text-cyan-400" />
+                                    <h3 className="text-sm font-medium text-white">Live Activity</h3>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                    <span className="text-xs text-gray-400">Streaming</span>
+                                </div>
                             </div>
                         </div>
-                    )}
-
-                    {activeTab === 'transactions' && (
-                        <div>
-                            <div className="text-[#FFD700] font-bold mb-3 text-sm flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <Activity className="w-4 h-4" />
-                                    BLOCKCHAIN TRANSACTIONS
+                        <div className="p-4 space-y-2 max-h-[300px] overflow-y-auto">
+                            {logs.slice(-5).map((log, i) => (
+                                <div 
+                                    key={i} 
+                                    className="bg-gradient-to-r from-cyan-500/5 to-transparent border border-cyan-500/10 rounded-lg px-4 py-2.5 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <span className="text-xs text-gray-500 font-mono mt-0.5 tabular-nums">
+                                            {new Date().toLocaleTimeString()}
+                                        </span>
+                                        <span className="text-sm text-gray-200 flex-1 font-light leading-relaxed">
+                                            {log}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="text-xs">({transactions.length})</span>
+                            ))}
+                            {logs.length === 0 && (
+                                <div className="text-center py-8 text-gray-500 text-sm">
+                                    Initializing drone swarm...
+                                </div>
+                            )}
+                            <div ref={logsEndRef} />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {activeTab === 'transactions' && (
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
+                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 px-6 py-4 border-b border-white/10">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Activity className="w-5 h-5 text-amber-400" />
+                                    <h3 className="text-lg font-medium text-white">Blockchain Transactions</h3>
+                                </div>
+                                <span className="text-sm text-gray-400">{transactions.length} total</span>
                             </div>
+                        </div>
+                        <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
                             {transactions.length === 0 ? (
-                                <div className="text-white/50 text-xs italic text-center py-8">
-                                    Waiting for transactions...
+                                <div className="text-center py-12 text-gray-500">
+                                    <Activity className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                                    <p className="text-sm">Waiting for transactions...</p>
                                 </div>
                             ) : (
-                                <div className="space-y-2">
+                                <div className="space-y-3">
                                     {transactions.map((tx) => (
-                                        <div key={tx.hash} className="bg-black/50 border border-[#FFD700]/20 p-3 rounded text-xs hover:border-[#FFD700]/50 transition-colors">
-                                            <div className="flex items-center justify-between mb-2">
-                                                <span className="text-[#00FF41] font-bold">{tx.eventType}</span>
-                                                <span className="text-white/50 text-[10px]">{new Date(tx.timestamp).toLocaleTimeString()}</span>
+                                        <div key={tx.hash} className="bg-gradient-to-r from-white/5 to-transparent border border-white/10 rounded-xl p-4 hover:border-amber-500/30 hover:shadow-lg hover:shadow-amber-500/10 transition-all">
+                                            <div className="flex items-center justify-between mb-3">
+                                                <span className="text-emerald-400 font-medium text-sm">{tx.eventType}</span>
+                                                <span className="text-gray-500 text-xs tabular-nums">{new Date(tx.timestamp).toLocaleTimeString()}</span>
                                             </div>
-                                            <div className="text-[#00F0FF] mb-2 text-[10px]">Drone: {tx.droneId}</div>
+                                            <div className="text-cyan-400 text-xs mb-3 font-light">Drone: {tx.droneId}</div>
                                             <div className="flex items-center gap-2">
-                                                <code className="text-white/70 text-[9px] flex-1 truncate bg-black/50 px-2 py-1 rounded">
+                                                <code className="text-gray-400 text-xs flex-1 truncate bg-black/50 px-3 py-2 rounded-lg font-mono">
                                                     {tx.hash}
                                                 </code>
                                                 <button
                                                     onClick={() => copyToClipboard(tx.hash)}
-                                                    className="p-1.5 hover:bg-white/10 rounded transition-colors"
+                                                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                                                     title="Copy hash"
                                                 >
                                                     {copiedHash === tx.hash ? (
-                                                        <Check className="w-3 h-3 text-[#00FF41]" />
+                                                        <Check className="w-4 h-4 text-emerald-400" />
                                                     ) : (
-                                                        <Copy className="w-3 h-3 text-white/50" />
+                                                        <Copy className="w-4 h-4 text-gray-400" />
                                                     )}
                                                 </button>
                                                 <button
                                                     onClick={() => openExplorer(tx.hash)}
-                                                    className="p-1.5 hover:bg-white/10 rounded transition-colors"
+                                                    className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                                                     title="View on explorer"
                                                 >
-                                                    <ExternalLink className="w-3 h-3 text-[#FFD700]" />
+                                                    <ExternalLink className="w-4 h-4 text-amber-400" />
                                                 </button>
                                             </div>
                                         </div>
@@ -241,181 +269,192 @@ export default function HUD() {
                                 </div>
                             )}
                         </div>
-                    )}
+                    </div>
+                </div>
+            )}
 
-                    {activeTab === 'dashboard' && (
-                        <div className="space-y-4">
-                            <div className="text-[#00FF41] font-bold mb-3 text-sm flex items-center gap-2">
-                                <BarChart3 className="w-4 h-4" />
-                                ANALYTICS DASHBOARD
+            {activeTab === 'dashboard' && (
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
+                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 px-6 py-4 border-b border-white/10">
+                            <div className="flex items-center gap-3">
+                                <BarChart3 className="w-5 h-5 text-emerald-400" />
+                                <h3 className="text-lg font-medium text-white">Analytics Dashboard</h3>
                             </div>
-                            
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="bg-gradient-to-br from-[#00F0FF]/20 to-transparent border border-[#00F0FF]/30 p-4 rounded">
-                                    <div className="text-white/50 text-xs mb-1">Active Drones</div>
-                                    <div className="text-[#00F0FF] text-3xl font-bold">{droneCount}</div>
+                        </div>
+                        <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
+                        <div className="space-y-5">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border border-cyan-500/20 p-5 rounded-xl">
+                                    <div className="text-gray-400 text-sm mb-2 font-light">Active Drones</div>
+                                    <div className="text-cyan-400 text-4xl font-semibold tabular-nums">{droneCount}</div>
                                 </div>
                                 
-                                <div className="bg-gradient-to-br from-[#FFD700]/20 to-transparent border border-[#FFD700]/30 p-4 rounded">
-                                    <div className="text-white/50 text-xs mb-1">Events Published</div>
-                                    <div className="text-[#FFD700] text-3xl font-bold">{eventsPublished}</div>
+                                <div className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20 p-5 rounded-xl">
+                                    <div className="text-gray-400 text-sm mb-2 font-light">Events Published</div>
+                                    <div className="text-amber-400 text-4xl font-semibold tabular-nums">{eventsPublished}</div>
                                 </div>
                                 
-                                <div className="bg-gradient-to-br from-[#00FF41]/20 to-transparent border border-[#00FF41]/30 p-4 rounded">
-                                    <div className="text-white/50 text-xs mb-1">Network TPS</div>
-                                    <div className="text-[#00FF41] text-2xl font-bold">{tps.toLocaleString()}</div>
+                                <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20 p-5 rounded-xl">
+                                    <div className="text-gray-400 text-sm mb-2 font-light">Network TPS</div>
+                                    <div className="text-emerald-400 text-3xl font-semibold tabular-nums">{tps.toLocaleString()}</div>
                                 </div>
                                 
-                                <div className="bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-400/30 p-4 rounded">
-                                    <div className="text-white/50 text-xs mb-1">Uptime</div>
-                                    <div className="text-purple-400 text-2xl font-bold">99.9%</div>
-                                </div>
-                            </div>
-
-                            <div className="bg-black/50 border border-[#00F0FF]/20 p-4 rounded">
-                                <div className="text-white/70 text-xs font-bold mb-2">SYSTEM STATUS</div>
-                                <div className="space-y-2 text-xs">
-                                    <div className="flex justify-between">
-                                        <span className="text-white/50">Blockchain</span>
-                                        <span className="text-[#00FF41] font-bold">✓ SYNCED</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-white/50">Schema</span>
-                                        <span className="text-[#00FF41] font-bold">✓ REGISTERED</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-white/50">WebGL Renderer</span>
-                                        <span className="text-[#00FF41] font-bold">✓ 60 FPS</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-white/50">Data Streams</span>
-                                        <span className="text-[#00FF41] font-bold">✓ ACTIVE</span>
-                                    </div>
+                                <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 p-5 rounded-xl">
+                                    <div className="text-gray-400 text-sm mb-2 font-light">Uptime</div>
+                                    <div className="text-purple-400 text-3xl font-semibold tabular-nums">99.9%</div>
                                 </div>
                             </div>
 
-                            <div className="bg-black/50 border border-[#FFD700]/20 p-4 rounded">
-                                <div className="text-white/70 text-xs font-bold mb-2">CONTRACT INFO</div>
-                                <div className="space-y-1 text-[10px]">
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                <h4 className="text-white text-sm font-medium mb-4">System Status</h4>
+                                <div className="space-y-3 text-sm">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Blockchain</span>
+                                        <span className="text-emerald-400 font-medium">✓ Synced</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Schema</span>
+                                        <span className="text-emerald-400 font-medium">✓ Registered</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">WebGL Renderer</span>
+                                        <span className="text-emerald-400 font-medium">✓ 60 FPS</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Data Streams</span>
+                                        <span className="text-emerald-400 font-medium">✓ Active</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                <h4 className="text-white text-sm font-medium mb-4">Contract Information</h4>
+                                <div className="space-y-3 text-sm">
                                     <div className="flex justify-between">
-                                        <span className="text-white/50">Network</span>
-                                        <span className="text-[#FFD700]">Somnia Testnet</span>
+                                        <span className="text-gray-400 font-light">Network</span>
+                                        <span className="text-white">Somnia Testnet</span>
                                     </div>
                                     <div className="flex justify-between">
-                                        <span className="text-white/50">Chain ID</span>
-                                        <span className="text-[#FFD700]">50312</span>
+                                        <span className="text-gray-400 font-light">Chain ID</span>
+                                        <span className="text-white tabular-nums">50312</span>
                                     </div>
-                                    <div className="text-white/50 mt-2">Contract Address</div>
-                                    <code className="text-[#FFD700] break-all bg-black/50 px-2 py-1 rounded block">
-                                        0xC1d833a80469854a7450Dd187224b2ceE5ecE264
-                                    </code>
+                                    <div>
+                                        <div className="text-gray-400 text-xs mb-2 font-light">Contract Address</div>
+                                        <code className="text-amber-400 text-xs break-all bg-black/50 px-3 py-2 rounded-lg block font-mono">
+                                            0xC1d833a80469854a7450Dd187224b2ceE5ecE264
+                                        </code>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
-                    {activeTab === 'about' && (
-                        <div className="space-y-4 text-xs">
-                            <div className="text-purple-400 font-bold mb-3 text-sm flex items-center gap-2">
-                                <Info className="w-4 h-4" />
-                                PROJECT INFORMATION
+            {activeTab === 'about' && (
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
+                    <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="bg-gradient-to-r from-purple-500/10 to-purple-500/5 px-6 py-4 border-b border-white/10">
+                            <div className="flex items-center gap-3">
+                                <Info className="w-5 h-5 text-purple-400" />
+                                <h3 className="text-lg font-medium text-white">Project Information</h3>
                             </div>
-                            
-                            <div className="bg-gradient-to-br from-purple-500/20 to-transparent border border-purple-400/30 p-4 rounded">
-                                <div className="text-white font-bold mb-2">AeroMesh Digital Twin</div>
-                                <div className="text-white/70 leading-relaxed">
+                        </div>
+                        <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
+                        <div className="space-y-5">
+                            <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl p-5">
+                                <h3 className="text-white text-lg font-medium mb-3">AeroMesh Digital Twin</h3>
+                                <p className="text-gray-300 leading-relaxed text-sm font-light">
                                     Real-time autonomous drone swarm simulation powered by Somnia Data Streams. 
                                     Built for the Somnia Mini Hackathon 2024.
-                                </div>
+                                </p>
                             </div>
 
-                            <div className="bg-black/50 border border-[#00F0FF]/20 p-4 rounded">
-                                <div className="text-[#00F0FF] font-bold mb-2 flex items-center gap-2">
-                                    <Layers className="w-3 h-3" />
-                                    KEY FEATURES
-                                </div>
-                                <ul className="space-y-1 text-white/70">
-                                    <li>• 50 autonomous AI agents (Boids algorithm)</li>
-                                    <li>• Real-time blockchain event publishing</li>
-                                    <li>• WebGL-powered 3D visualization</li>
-                                    <li>• Collision avoidance system</li>
-                                    <li>• Schema-based data encoding</li>
-                                    <li>• Sub-second transaction finality</li>
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                <h4 className="text-white text-sm font-medium mb-4 flex items-center gap-2">
+                                    <Layers className="w-4 h-4 text-cyan-400" />
+                                    Key Features
+                                </h4>
+                                <ul className="space-y-2 text-sm text-gray-300 font-light">
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-cyan-400 mt-1">•</span>
+                                        <span>50 autonomous AI agents using Boids algorithm</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-cyan-400 mt-1">•</span>
+                                        <span>Real-time blockchain event publishing</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-cyan-400 mt-1">•</span>
+                                        <span>WebGL-powered 3D visualization</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-cyan-400 mt-1">•</span>
+                                        <span>Advanced collision avoidance system</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <span className="text-cyan-400 mt-1">•</span>
+                                        <span>Schema-based data encoding</span>
+                                    </li>
                                 </ul>
                             </div>
 
-                            <div className="bg-black/50 border border-[#FFD700]/20 p-4 rounded">
-                                <div className="text-[#FFD700] font-bold mb-2">TECH STACK</div>
-                                <div className="space-y-1 text-white/70">
-                                    <div className="flex justify-between">
-                                        <span>Frontend</span>
-                                        <span className="text-[#FFD700]">Next.js 16 + React 19</span>
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                <h4 className="text-white text-sm font-medium mb-4">Technology Stack</h4>
+                                <div className="space-y-2.5 text-sm">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Frontend</span>
+                                        <span className="text-white">Next.js 16 + React 19</span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span>3D Graphics</span>
-                                        <span className="text-[#FFD700]">Three.js + R3F</span>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">3D Graphics</span>
+                                        <span className="text-white">Three.js + R3F</span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span>Blockchain</span>
-                                        <span className="text-[#FFD700]">Somnia + Viem</span>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Blockchain</span>
+                                        <span className="text-white">Somnia + Viem</span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span>Styling</span>
-                                        <span className="text-[#FFD700]">Tailwind CSS 4</span>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400 font-light">Styling</span>
+                                        <span className="text-white">Tailwind CSS 4</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-black/50 border border-[#00FF41]/20 p-4 rounded">
-                                <div className="text-[#00FF41] font-bold mb-2">USE CASES</div>
-                                <ul className="space-y-1 text-white/70">
-                                    <li>✓ Supply chain monitoring</li>
-                                    <li>✓ Fleet management systems</li>
-                                    <li>✓ IoT device coordination</li>
-                                    <li>✓ Logistics optimization</li>
-                                    <li>✓ Audit trail generation</li>
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                <h4 className="text-white text-sm font-medium mb-4">Use Cases</h4>
+                                <ul className="space-y-2 text-sm text-gray-300 font-light">
+                                    <li className="flex items-center gap-2">
+                                        <span className="text-emerald-400">✓</span>
+                                        Supply chain monitoring
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="text-emerald-400">✓</span>
+                                        Fleet management systems
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="text-emerald-400">✓</span>
+                                        IoT device coordination
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="text-emerald-400">✓</span>
+                                        Logistics optimization
+                                    </li>
                                 </ul>
                             </div>
 
-                            <div className="bg-black/50 border border-white/20 p-4 rounded text-center">
-                                <div className="text-white/50 text-[10px] mb-2">Built by</div>
-                                <div className="text-white font-bold">Soham Juneja</div>
-                                <div className="text-white/50 text-[10px] mt-1">Somnia Mini Hackathon 2024</div>
+                            <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-xl p-5 text-center">
+                                <div className="text-gray-400 text-xs mb-2 font-light">Created by</div>
+                                <div className="text-white text-lg font-medium">Soham Juneja</div>
+                                <div className="text-gray-500 text-xs mt-1">Somnia Mini Hackathon 2024</div>
                             </div>
                         </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Floating Mini-Log Panel - Bottom Right */}
-            <div className="absolute bottom-6 right-6 w-96 pointer-events-auto z-30">
-                <div className="bg-black/90 border border-[#00F0FF]/50 rounded-lg backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.3)] p-3">
-                    <div className="flex items-center gap-2 mb-2 text-[#00F0FF] border-b border-[#00F0FF]/30 pb-2">
-                        <Terminal className="w-3 h-3" />
-                        <span className="font-bold text-xs tracking-wider">LIVE ACTIVITY</span>
-                        <div className="ml-auto flex items-center gap-1">
-                            <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-pulse"></div>
-                            <span className="text-[#00FF41] text-[10px]">STREAMING</span>
                         </div>
                     </div>
-                    <div className="space-y-1.5 font-mono text-[10px] max-h-24 overflow-hidden">
-                        {logs.slice(-3).map((log, i) => (
-                            <div 
-                                key={i} 
-                                className="text-[#00FF41] animate-in fade-in slide-in-from-bottom-2 duration-300 bg-black/50 px-2 py-1.5 rounded border border-[#00FF41]/10"
-                            >
-                                <span className="text-white/40 mr-2">{new Date().toLocaleTimeString()}</span>
-                                {log}
-                            </div>
-                        ))}
-                        {logs.length === 0 && (
-                            <div className="text-white/30 italic text-center py-2">
-                                Initializing swarm...
-                            </div>
-                        )}
-                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }
