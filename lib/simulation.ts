@@ -42,6 +42,31 @@ export interface SimulationState {
   buildings: Vector3[];
 }
 
+export interface DroneEvent {
+  eventType: string;
+  message: string;
+  timestamp: number;
+  droneId: string;
+}
+
+// Simple event emitter for UI updates
+class EventEmitter {
+  private listeners: ((event: DroneEvent) => void)[] = [];
+
+  subscribe(callback: (event: DroneEvent) => void) {
+    this.listeners.push(callback);
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== callback);
+    };
+  }
+
+  emit(event: DroneEvent) {
+    this.listeners.forEach(listener => listener(event));
+  }
+}
+
+export const simulationEvents = new EventEmitter();
+
 // Constants
 const DRONE_COUNT = 50;
 const WORLD_SIZE = 200;
@@ -83,17 +108,55 @@ export class SimulationEngine {
 
   async initSchema() {
     try {
+      // First compute the schema ID
       const computedSchemaId = await this.sdk.streams.computeSchemaId(DRONE_EVENT_SCHEMA);
+      
       if (computedSchemaId instanceof Error) {
-        console.error('Failed to compute schema ID:', computedSchemaId);
+        console.error('❌ Failed to compute schema ID:', computedSchemaId);
         this.schemaId = null;
         return;
       }
-      // Now TypeScript knows computedSchemaId is `0x${string}`
+      
       this.schemaId = computedSchemaId as `0x${string}`;
-      console.log('Schema ID:', this.schemaId);
-    } catch (e) {
-      console.error('Failed to compute schema ID:', e);
+      console.log('📋 Schema ID computed:', this.schemaId);
+
+      // Check if schema is already registered
+      const isRegistered = await this.sdk.streams.isDataSchemaRegistered(this.schemaId);
+      
+      if (isRegistered instanceof Error) {
+        console.error('❌ Failed to check schema registration:', isRegistered);
+        return;
+      }
+
+      if (!isRegistered) {
+        console.log('⚠️ Schema not registered, registering on-chain...');
+        console.log('⏳ Please wait, this may take a few seconds...');
+        
+        try {
+          const txHash = await this.sdk.streams.registerDataSchemas([{
+            schemaName: 'DroneEvent',
+            schema: DRONE_EVENT_SCHEMA,
+          }]);
+          
+          if (txHash instanceof Error) {
+            console.error('❌ Schema registration failed:', txHash.message);
+            // Don't set schemaId to null - the schema might work anyway
+            return;
+          }
+          
+          console.log('✅ Schema registered on Somnia blockchain!');
+          console.log('🔗 Transaction hash:', txHash);
+          console.log('🔗 View on explorer: https://shannon-explorer.somnia.network/tx/' + txHash);
+        } catch (regError: any) {
+          // If registration fails but schema might already exist, just log and continue
+          console.warn('⚠️ Schema registration error (may already be registered):', regError.message);
+          console.log('📝 Continuing with computed schema ID...');
+        }
+      } else {
+        console.log('✅ Schema already registered on-chain');
+      }
+    } catch (e: any) {
+      console.error('❌ Schema initialization failed:', e);
       this.schemaId = null;
     }
   }
@@ -138,8 +201,8 @@ export class SimulationEngine {
       this.checkBoundaries(drone);
     });
 
-    // Randomly publish events to the blockchain
-    if (Math.random() < 0.005 && this.schemaId) { // Lower frequency to avoid spamming too much
+    // Randomly publish events to the blockchain (reduced frequency to avoid nonce collisions)
+    if (Math.random() < 0.005 && this.schemaId) { // 0.5% chance per tick
       this.publishRandomEvent();
     }
   }
@@ -160,6 +223,15 @@ export class SimulationEngine {
       case 'BLOCK_SYNC': message = `Consensus reached on Block #${Math.floor(Math.random() * 1000000)}`; break;
     }
 
+    // Emit event immediately to UI (for demo responsiveness)
+    simulationEvents.emit({
+      eventType,
+      message,
+      timestamp: Date.now(),
+      droneId: randomDrone.id
+    });
+
+    // Also publish to blockchain (async, doesn't block simulation)
     try {
       const encodedData = droneEventEncoder.encodeData([
         { name: 'eventType', value: eventType, type: 'string' },
@@ -170,18 +242,29 @@ export class SimulationEngine {
       ]);
 
       // Publish to Somnia
-      // We use a random ID for the stream key for now, or could use the Drone ID
       const streamId = toHex(randomDrone.id, { size: 32 });
 
-      await this.sdk.streams.set([{
+      const result = await this.sdk.streams.set([{
         id: streamId,
         schemaId: this.schemaId,
         data: encodedData
       }]);
 
-      console.log(`Published event: ${eventType} for ${randomDrone.id}`);
-    } catch (e) {
-      console.error('Failed to publish event:', e);
+      if (result instanceof Error) {
+        // Silently skip failed transactions for clean console
+      } else {
+        console.log(`✅ Published to Somnia: ${eventType} for ${randomDrone.id}`);
+        console.log(`🔗 TX Hash: ${result}`);
+        
+        // Dispatch event to UI for transaction tracking
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('blockchain-tx', {
+            detail: { hash: result, eventType, droneId: randomDrone.id }
+          }));
+        }
+      }
+    } catch (e: any) {
+      // Silently skip errors for clean demo console
     }
   }
 

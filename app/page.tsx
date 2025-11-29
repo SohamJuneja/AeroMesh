@@ -6,13 +6,15 @@ import HUD from '@/components/HUD';
 
 export default function Home() {
   return (
-    <main className="relative w-full h-screen bg-[#000510] overflow-hidden">
-      <HUD />
-      <div className="absolute inset-0 z-0">
+    <main className="relative w-full h-full bg-[#000510] overflow-hidden">
+      {/* 3D Canvas - Behind everything */}
+      <div className="absolute inset-0 w-full h-full">
         <Canvas>
           <Scene />
         </Canvas>
       </div>
+      {/* HUD - On top with pointer-events-none so it doesn't block canvas */}
+      <HUD />
     </main>
   );
 }

@@ -1,0 +1,12 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_CHAIN_ID": "50312",
+    "NEXT_PUBLIC_RPC_URL": "https://dream-rpc.somnia.network"
+  }
+}
