@@ -101,7 +101,7 @@ export default function HUD() {
                 </div>
                 
                 <div className="flex items-center gap-6 pointer-events-auto">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[#00FF41]/10 border border-[#00FF41] rounded">
                         <Wifi className="w-4 h-4 text-[#00FF41]" />
                         <div>
                             <div className="text-[#00FF41] text-xs font-bold">CONNECTED</div>
@@ -109,7 +109,7 @@ export default function HUD() {
                         </div>
                     </div>
                     
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2 bg-[#00F0FF]/10 border border-[#00F0FF] rounded">
                         <Activity className="w-4 h-4 text-[#00F0FF]" />
                         <div>
                             <div className="text-[#00F0FF] text-xs font-bold">{tps.toLocaleString()} TPS</div>
@@ -125,10 +125,10 @@ export default function HUD() {
                 <div className="flex border-b border-[#00F0FF]/30">
                     <button
                         onClick={() => setActiveTab('logs')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-colors flex items-center justify-center gap-2 ${
+                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                             activeTab === 'logs' 
                                 ? 'bg-[#00F0FF]/20 text-[#00F0FF] border-b-2 border-[#00F0FF]' 
-                                : 'text-white/50 hover:text-white/80'
+                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
                         }`}
                     >
                         <Terminal className="w-4 h-4" />
@@ -136,10 +136,10 @@ export default function HUD() {
                     </button>
                     <button
                         onClick={() => setActiveTab('transactions')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-colors flex items-center justify-center gap-2 ${
+                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                             activeTab === 'transactions' 
                                 ? 'bg-[#FFD700]/20 text-[#FFD700] border-b-2 border-[#FFD700]' 
-                                : 'text-white/50 hover:text-white/80'
+                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
                         }`}
                     >
                         <Activity className="w-4 h-4" />
@@ -147,10 +147,10 @@ export default function HUD() {
                     </button>
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-colors flex items-center justify-center gap-2 ${
+                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                             activeTab === 'dashboard' 
                                 ? 'bg-[#00FF41]/20 text-[#00FF41] border-b-2 border-[#00FF41]' 
-                                : 'text-white/50 hover:text-white/80'
+                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
                         }`}
                     >
                         <BarChart3 className="w-4 h-4" />
@@ -158,10 +158,10 @@ export default function HUD() {
                     </button>
                     <button
                         onClick={() => setActiveTab('about')}
-                        className={`flex-1 px-4 py-3 text-xs font-bold transition-colors flex items-center justify-center gap-2 ${
+                        className={`flex-1 px-4 py-3 text-xs font-bold transition-all flex items-center justify-center gap-2 ${
                             activeTab === 'about' 
                                 ? 'bg-purple-500/20 text-purple-400 border-b-2 border-purple-400' 
-                                : 'text-white/50 hover:text-white/80'
+                                : 'text-white/50 hover:text-white/80 hover:bg-white/5'
                         }`}
                     >
                         <Info className="w-4 h-4" />
@@ -386,6 +386,37 @@ export default function HUD() {
                     )}
                 </div>
             </div>
+
+            {/* Floating Mini-Log Panel - Bottom Right */}
+            <div className="absolute bottom-6 right-6 w-96 pointer-events-auto z-30">
+                <div className="bg-black/90 border border-[#00F0FF]/50 rounded-lg backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.3)] p-3">
+                    <div className="flex items-center gap-2 mb-2 text-[#00F0FF] border-b border-[#00F0FF]/30 pb-2">
+                        <Terminal className="w-3 h-3" />
+                        <span className="font-bold text-xs tracking-wider">LIVE ACTIVITY</span>
+                        <div className="ml-auto flex items-center gap-1">
+                            <div className="w-2 h-2 bg-[#00FF41] rounded-full animate-pulse"></div>
+                            <span className="text-[#00FF41] text-[10px]">STREAMING</span>
+                        </div>
+                    </div>
+                    <div className="space-y-1.5 font-mono text-[10px] max-h-24 overflow-hidden">
+                        {logs.slice(-3).map((log, i) => (
+                            <div 
+                                key={i} 
+                                className="text-[#00FF41] animate-in fade-in slide-in-from-bottom-2 duration-300 bg-black/50 px-2 py-1.5 rounded border border-[#00FF41]/10"
+                            >
+                                <span className="text-white/40 mr-2">{new Date().toLocaleTimeString()}</span>
+                                {log}
+                            </div>
+                        ))}
+                        {logs.length === 0 && (
+                            <div className="text-white/30 italic text-center py-2">
+                                Initializing swarm...
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
+

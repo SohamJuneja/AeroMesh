@@ -110,19 +110,19 @@ export class SimulationEngine {
     try {
       // First compute the schema ID
       const computedSchemaId = await this.sdk.streams.computeSchemaId(DRONE_EVENT_SCHEMA);
-      
+
       if (computedSchemaId instanceof Error) {
         console.error('❌ Failed to compute schema ID:', computedSchemaId);
         this.schemaId = null;
         return;
       }
-      
+
       this.schemaId = computedSchemaId as `0x${string}`;
       console.log('📋 Schema ID computed:', this.schemaId);
 
       // Check if schema is already registered
       const isRegistered = await this.sdk.streams.isDataSchemaRegistered(this.schemaId);
-      
+
       if (isRegistered instanceof Error) {
         console.error('❌ Failed to check schema registration:', isRegistered);
         return;
@@ -131,19 +131,19 @@ export class SimulationEngine {
       if (!isRegistered) {
         console.log('⚠️ Schema not registered, registering on-chain...');
         console.log('⏳ Please wait, this may take a few seconds...');
-        
+
         try {
           const txHash = await this.sdk.streams.registerDataSchemas([{
             schemaName: 'DroneEvent',
             schema: DRONE_EVENT_SCHEMA,
           }]);
-          
+
           if (txHash instanceof Error) {
             console.error('❌ Schema registration failed:', txHash.message);
             // Don't set schemaId to null - the schema might work anyway
             return;
           }
-          
+
           console.log('✅ Schema registered on Somnia blockchain!');
           console.log('🔗 Transaction hash:', txHash);
           console.log('🔗 View on explorer: https://shannon-explorer.somnia.network/tx/' + txHash);
@@ -255,7 +255,7 @@ export class SimulationEngine {
       } else {
         console.log(`✅ Published to Somnia: ${eventType} for ${randomDrone.id}`);
         console.log(`🔗 TX Hash: ${result}`);
-        
+
         // Dispatch event to UI for transaction tracking
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new CustomEvent('blockchain-tx', {
