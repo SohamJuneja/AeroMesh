@@ -106,6 +106,7 @@ export default function Scene() {
                 maxPolarAngle={Math.PI / 2 - 0.1}
                 autoRotate
                 autoRotateSpeed={0.5}
+                enablePan={true}
             />
 
             <ambientLight intensity={0.2} />

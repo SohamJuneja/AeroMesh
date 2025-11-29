@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useEffect, useState, useRef } from 'react';
-import { Wifi, Activity, Terminal, ExternalLink, Copy, Check, BarChart3, Info, Layers } from 'lucide-react';
+import { Wifi, Activity, Terminal, ExternalLink, Copy, Check, BarChart3, Info, Layers, X } from 'lucide-react';
 import { simulationEvents } from '@/lib/simulation';
 
 interface Transaction {
@@ -92,7 +92,7 @@ export default function HUD() {
     return (
         <>
             {/* Top Header Bar */}
-            <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/90 via-black/80 to-transparent backdrop-blur-sm border-b border-white/10 pointer-events-none z-50">
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/90 via-black/80 to-transparent backdrop-blur-sm border-b border-white/10 pointer-events-none z-60">
                 <div className="px-8 py-4 flex items-center justify-between pointer-events-auto">
                     <div className="flex items-center gap-4">
                         <div>
@@ -102,7 +102,7 @@ export default function HUD() {
                             <p className="text-sm text-gray-400 font-light">Digital Twin Simulation</p>
                         </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
                             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
@@ -111,7 +111,7 @@ export default function HUD() {
                                 <div className="text-gray-400 text-xs">Somnia Testnet</div>
                             </div>
                         </div>
-                        
+
                         <div className="flex items-center gap-3 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
                             <Activity className="w-5 h-5 text-cyan-400" />
                             <div>
@@ -126,33 +126,30 @@ export default function HUD() {
                 <div className="px-8 pb-3 flex gap-2 pointer-events-auto">
                     <button
                         onClick={() => setActiveTab('logs')}
-                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
-                            activeTab === 'logs' 
-                                ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/20' 
-                                : 'text-gray-400 hover:text-white hover:bg-white/5'
-                        }`}
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${activeTab === 'logs'
+                            ? 'bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/20'
+                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                            }`}
                     >
                         <Terminal className="w-4 h-4" />
                         Live Logs
                     </button>
                     <button
                         onClick={() => setActiveTab('transactions')}
-                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
-                            activeTab === 'transactions' 
-                                ? 'bg-amber-500/20 text-amber-400 shadow-lg shadow-amber-500/20' 
-                                : 'text-gray-400 hover:text-white hover:bg-white/5'
-                        }`}
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${activeTab === 'transactions'
+                            ? 'bg-amber-500/20 text-amber-400 shadow-lg shadow-amber-500/20'
+                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                            }`}
                     >
                         <Activity className="w-4 h-4" />
                         Transactions
                     </button>
                     <button
                         onClick={() => setActiveTab('dashboard')}
-                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${
-                            activeTab === 'dashboard' 
-                                ? 'bg-emerald-500/20 text-emerald-400 shadow-lg shadow-emerald-500/20' 
-                                : 'text-gray-400 hover:text-white hover:bg-white/5'
-                        }`}
+                        className={`px-5 py-2 text-sm font-medium transition-all flex items-center gap-2 rounded-lg ${activeTab === 'dashboard'
+                            ? 'bg-emerald-500/20 text-emerald-400 shadow-lg shadow-emerald-500/20'
+                            : 'text-gray-400 hover:text-white hover:bg-white/5'
+                            }`}
                     >
                         <BarChart3 className="w-4 h-4" />
                         Dashboard
@@ -172,57 +169,66 @@ export default function HUD() {
 
             {/* Content Panels */}
             {activeTab === 'logs' && (
-                <div className="absolute bottom-6 right-6 w-[500px] pointer-events-auto z-50">
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
                     <div className="bg-black/95 backdrop-blur-xl border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
-                        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-5 py-3 border-b border-white/10">
+                        <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 px-6 py-4 border-b border-white/10">
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <Terminal className="w-4 h-4 text-cyan-400" />
-                                    <h3 className="text-sm font-medium text-white">Live Activity</h3>
+                                <div className="flex items-center gap-3">
+                                    <Terminal className="w-5 h-5 text-cyan-400" />
+                                    <h3 className="text-lg font-medium text-white">Live Activity</h3>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                                    <span className="text-xs text-gray-400">Streaming</span>
+                                <div className="flex items-center gap-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                                        <span className="text-xs text-gray-400">Streaming</span>
+                                    </div>
+                                    <button
+                                        onClick={() => setActiveTab(null as any)}
+                                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                                        title="Close"
+                                    >
+                                        <X className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div className="p-4 space-y-2 max-h-[300px] overflow-y-auto">
-                            {logs.slice(-5).map((log, i) => (
-                                <div 
-                                    key={i} 
-                                    className="bg-black/60 border border-cyan-500/30 rounded-lg px-4 py-3 animate-in fade-in slide-in-from-bottom-2 duration-300 backdrop-blur-sm"
-                                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
-                                >
-                                    <div className="flex items-start gap-3">
-                                        <span 
-                                            className="text-xs text-cyan-400 font-mono mt-0.5 tabular-nums font-semibold"
-                                            style={{ color: '#22d3ee' }}
-                                        >
-                                            {new Date().toLocaleTimeString()}
-                                        </span>
-                                        <span 
-                                            className="text-sm text-white font-medium flex-1 leading-relaxed"
-                                            style={{ color: '#ffffff' }}
-                                        >
-                                            {log}
-                                        </span>
+                        <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
+                            <div className="space-y-3">
+                                {logs.slice(-10).map((log, i) => (
+                                    <div
+                                        key={i}
+                                        className="bg-black/50 border border-white/20 rounded-xl p-4 hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/20 transition-all backdrop-blur-sm"
+                                    >
+                                        <div className="flex items-start gap-3">
+                                            <span
+                                                className="text-xs text-cyan-400 font-mono mt-0.5 tabular-nums font-semibold"
+                                                style={{ color: '#22d3ee' }}
+                                            >
+                                                {new Date().toLocaleTimeString()}
+                                            </span>
+                                            <span
+                                                className="text-sm text-white font-medium flex-1 leading-relaxed"
+                                                style={{ color: '#ffffff' }}
+                                            >
+                                                {log}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                             {logs.length === 0 && (
-                                <div className="text-center py-8">
-                                    <Terminal className="w-8 h-8 mx-auto mb-3 text-cyan-400 opacity-50" />
+                                <div className="text-center py-12">
+                                    <Terminal className="w-12 h-12 mx-auto mb-4 text-cyan-400 opacity-50" />
                                     <p className="text-white text-sm" style={{ color: '#ffffff' }}>Initializing drone swarm...</p>
                                 </div>
                             )}
-                            <div ref={logsEndRef} />
                         </div>
                     </div>
                 </div>
             )}
 
             {activeTab === 'transactions' && (
-                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-50">
+                <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-40">
                     <div className="bg-black/95 backdrop-blur-xl border border-amber-500/30 rounded-2xl shadow-2xl shadow-amber-500/20 overflow-hidden">
                         <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 px-6 py-4 border-b border-white/10">
                             <div className="flex items-center justify-between">
@@ -230,7 +236,16 @@ export default function HUD() {
                                     <Activity className="w-5 h-5 text-amber-400" />
                                     <h3 className="text-lg font-medium text-white">Blockchain Transactions</h3>
                                 </div>
-                                <span className="text-sm text-gray-400">{transactions.length} total</span>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-sm text-gray-400">{transactions.length} total</span>
+                                    <button
+                                        onClick={() => setActiveTab(null as any)}
+                                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                                        title="Close"
+                                    >
+                                        <X className="w-4 h-4 text-gray-400 hover:text-white" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
@@ -284,77 +299,86 @@ export default function HUD() {
                 <div className="absolute top-[180px] left-1/2 -translate-x-1/2 w-[700px] max-h-[calc(100vh-220px)] pointer-events-auto z-50">
                     <div className="bg-black/95 backdrop-blur-xl border border-emerald-500/30 rounded-2xl shadow-2xl shadow-emerald-500/20 overflow-hidden">
                         <div className="bg-gradient-to-r from-emerald-500/10 to-emerald-500/5 px-6 py-4 border-b border-white/10">
-                            <div className="flex items-center gap-3">
-                                <BarChart3 className="w-5 h-5 text-emerald-400" />
-                                <h3 className="text-lg font-medium text-white">Analytics Dashboard</h3>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <BarChart3 className="w-5 h-5 text-emerald-400" />
+                                    <h3 className="text-lg font-medium text-white">Analytics Dashboard</h3>
+                                </div>
+                                <button
+                                    onClick={() => setActiveTab(null as any)}
+                                    className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                                    title="Close"
+                                >
+                                    <X className="w-4 h-4 text-gray-400 hover:text-white" />
+                                </button>
                             </div>
                         </div>
                         <div className="p-6 overflow-y-auto max-h-[calc(100vh-300px)]">
-                        <div className="space-y-5">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border border-cyan-500/20 p-5 rounded-xl">
-                                    <div className="text-gray-400 text-sm mb-2 font-light">Active Drones</div>
-                                    <div className="text-cyan-400 text-4xl font-semibold tabular-nums">{droneCount}</div>
-                                </div>
-                                
-                                <div className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20 p-5 rounded-xl">
-                                    <div className="text-gray-400 text-sm mb-2 font-light">Events Published</div>
-                                    <div className="text-amber-400 text-4xl font-semibold tabular-nums">{eventsPublished}</div>
-                                </div>
-                                
-                                <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20 p-5 rounded-xl">
-                                    <div className="text-gray-400 text-sm mb-2 font-light">Network TPS</div>
-                                    <div className="text-emerald-400 text-3xl font-semibold tabular-nums">{tps.toLocaleString()}</div>
-                                </div>
-                                
-                                <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 p-5 rounded-xl">
-                                    <div className="text-gray-400 text-sm mb-2 font-light">Uptime</div>
-                                    <div className="text-purple-400 text-3xl font-semibold tabular-nums">99.9%</div>
-                                </div>
-                            </div>
+                            <div className="space-y-5">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border border-cyan-500/20 p-5 rounded-xl">
+                                        <div className="text-gray-400 text-sm mb-2 font-light">Active Drones</div>
+                                        <div className="text-cyan-400 text-4xl font-semibold tabular-nums">{droneCount}</div>
+                                    </div>
 
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                                <h4 className="text-white text-sm font-medium mb-4">System Status</h4>
-                                <div className="space-y-3 text-sm">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Blockchain</span>
-                                        <span className="text-emerald-400 font-medium">✓ Synced</span>
+                                    <div className="bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20 p-5 rounded-xl">
+                                        <div className="text-gray-400 text-sm mb-2 font-light">Events Published</div>
+                                        <div className="text-amber-400 text-4xl font-semibold tabular-nums">{eventsPublished}</div>
                                     </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Schema</span>
-                                        <span className="text-emerald-400 font-medium">✓ Registered</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">WebGL Renderer</span>
-                                        <span className="text-emerald-400 font-medium">✓ 60 FPS</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-gray-400 font-light">Data Streams</span>
-                                        <span className="text-emerald-400 font-medium">✓ Active</span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-                                <h4 className="text-white text-sm font-medium mb-4">Contract Information</h4>
-                                <div className="space-y-3 text-sm">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 font-light">Network</span>
-                                        <span className="text-white">Somnia Testnet</span>
+                                    <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20 p-5 rounded-xl">
+                                        <div className="text-gray-400 text-sm mb-2 font-light">Network TPS</div>
+                                        <div className="text-emerald-400 text-3xl font-semibold tabular-nums">{tps.toLocaleString()}</div>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-400 font-light">Chain ID</span>
-                                        <span className="text-white tabular-nums">50312</span>
+
+                                    <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 p-5 rounded-xl">
+                                        <div className="text-gray-400 text-sm mb-2 font-light">Uptime</div>
+                                        <div className="text-purple-400 text-3xl font-semibold tabular-nums">99.9%</div>
                                     </div>
-                                    <div>
-                                        <div className="text-gray-400 text-xs mb-2 font-light">Contract Address</div>
-                                        <code className="text-amber-400 text-xs break-all bg-black/50 px-3 py-2 rounded-lg block font-mono">
-                                            0xC1d833a80469854a7450Dd187224b2ceE5ecE264
-                                        </code>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                    <h4 className="text-white text-sm font-medium mb-4">System Status</h4>
+                                    <div className="space-y-3 text-sm">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-400 font-light">Blockchain</span>
+                                            <span className="text-emerald-400 font-medium">✓ Synced</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-400 font-light">Schema</span>
+                                            <span className="text-emerald-400 font-medium">✓ Registered</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-400 font-light">WebGL Renderer</span>
+                                            <span className="text-emerald-400 font-medium">✓ 60 FPS</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-gray-400 font-light">Data Streams</span>
+                                            <span className="text-emerald-400 font-medium">✓ Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-5">
+                                    <h4 className="text-white text-sm font-medium mb-4">Contract Information</h4>
+                                    <div className="space-y-3 text-sm">
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-400 font-light">Network</span>
+                                            <span className="text-white">Somnia Testnet</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-gray-400 font-light">Chain ID</span>
+                                            <span className="text-white tabular-nums">50312</span>
+                                        </div>
+                                        <div>
+                                            <div className="text-gray-400 text-xs mb-2 font-light">Contract Address</div>
+                                            <code className="text-amber-400 text-xs break-all bg-black/50 px-3 py-2 rounded-lg block font-mono">
+                                                0xC1d833a80469854a7450Dd187224b2ceE5ecE264
+                                            </code>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
